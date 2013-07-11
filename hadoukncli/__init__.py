@@ -1,22 +1,14 @@
-import os
 import sys
 import argparse
 
-from hadoukncli.config import HadouknConfigParser
-from hadoukncli.login import run_login
-from hadoukncli.create import run_create
+from hadoukncli.config import get_config
+from hadoukncli.commands.login import run_login
+from hadoukncli.commands.create import run_create
 
 
 def run_command(argv=sys.argv):
-    package_root = os.path.dirname(os.path.dirname(__file__))
-    config_file = open(os.path.join(package_root, 'hadoukncli.ini'))
-
-    # parse the file and make a dict out of it
-    config = HadouknConfigParser()
-    config.readfp(config_file, 'r')
-
-    # all settings for hadoukncli
-    settings = config.dict()
+    # get cli and user configs
+    config = get_config()
 
     # CLI argument parser
     parser = argparse.ArgumentParser(description='Do stuff with Hadoukn.')
@@ -34,4 +26,4 @@ def run_command(argv=sys.argv):
     create_parser.set_defaults(func=run_create)
 
     args = parser.parse_args()
-    args.func(args, settings)
+    args.func(args, config)
