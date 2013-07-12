@@ -1,18 +1,12 @@
-import os.path
-
 from ConfigParser import ConfigParser
 
 
-def get_config_file():
-    # get the settings
-    package_root = os.path.dirname(os.path.dirname(__file__))
-    config_path = os.path.join(package_root, 'hadoukncli.ini')
-
-    return open(config_path, 'r+')
+def get_config_file(path):
+    return open(path, 'r+')
 
 
-def get_config():
-    config_file = get_config_file()
+def get_config(path):
+    config_file = get_config_file(path)
 
     # parse the the user settings file, and form a dict from it
     config = HadoukncliConfigParser()

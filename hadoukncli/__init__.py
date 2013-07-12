@@ -8,7 +8,7 @@ from hadoukncli.commands.apps import apps_create
 
 def run_command(argv=sys.argv):
     # get cli and user configs
-    config = get_config()
+    config = get_config('hadoukncli.ini')
 
     # CLI argument parser
     parser = argparse.ArgumentParser(description='Do stuff with Hadoukn.')
