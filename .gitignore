@@ -52,6 +52,7 @@ data
 *.pydevproject
 env/
 *egg_info/
+*egg-info/
 *egg/
 
 # hadoukncli #
