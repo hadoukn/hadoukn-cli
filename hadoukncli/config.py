@@ -1,4 +1,5 @@
 from ConfigParser import ConfigParser
+import os
 
 
 def get_config_file(path):
@@ -6,18 +7,21 @@ def get_config_file(path):
 
 
 def get_config(path):
-    config_file = get_config_file(path)
+    if path is None:
+        path = os.environ.get('HADOUKN_CONFIG')
+    if path is None:
+        if os.path.exists('.hadouknrc'):
+            path = '.hadouknrc'
+    if path is None:
+        raise ValueError('Cannot find a configuration file.')
 
     # parse the the user settings file, and form a dict from it
-    config = HadoukncliConfigParser()
-    config.readfp(config_file)
-
-    # close file
-    config_file.close()
+    config = HadouknCLIConfigParser()
+    config.read(path)
     return config
 
 
-class HadoukncliConfigParser(ConfigParser):
+class HadouknCLIConfigParser(ConfigParser):
     def get_dict(self):
         sections = self.sections()
 
