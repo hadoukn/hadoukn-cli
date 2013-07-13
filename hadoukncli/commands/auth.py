@@ -4,6 +4,10 @@ import requests
 from hadoukncli.config import get_config_file
 
 
+#
+# login
+#
+
 def login(args, config):
     # extract settings from the config files
     settings = config.get_dict()

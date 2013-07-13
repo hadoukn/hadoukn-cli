@@ -6,6 +6,17 @@ from subprocess import call
 from hadoukncli.util import key_to_parts
 
 
+#
+# keys:add
+#
+
+def keys_add(args, config):
+    if args.keyfile:
+        associate_key(args, config, args.keyfile)
+    else:
+        associate_or_generate_ssh_key(args, config)
+
+
 def associate_key(args, config, path):
     settings = config.get_dict()
 
@@ -54,10 +65,3 @@ def associate_or_generate_ssh_key(args, config):
             print('Generating new SSH public key.')
             generate_ssh_key(args, config, ssh_key_path)
             associate_key(args, config, ssh_key_path)
-
-
-def keys_add(args, config):
-    if args.keyfile:
-        associate_key(args, config, args.keyfile)
-    else:
-        associate_or_generate_ssh_key(args, config)

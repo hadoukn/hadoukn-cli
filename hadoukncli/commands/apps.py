@@ -2,6 +2,10 @@ import json
 import requests
 
 
+#
+# apps:create
+#
+
 def apps_create(args, config):
     # extract settings from the config files
     settings = config.get_dict()

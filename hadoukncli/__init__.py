@@ -5,6 +5,7 @@ from hadoukncli.config import get_config
 from hadoukncli.commands.auth import login
 from hadoukncli.commands.apps import apps_create
 from hadoukncli.commands.keys import keys_add
+from hadoukncli.commands.releases import releases_add
 
 
 def run_command(argv=sys.argv):
@@ -37,6 +38,13 @@ def run_command(argv=sys.argv):
                                  help='The keyfile to add.',
                                  nargs='?')
     keys_add_parser.set_defaults(func=keys_add)
+
+    # releases:add
+    releases_add_parser = subparsers.add_parser('releases:add', help='releases:add help')
+    releases_add_parser.add_argument('name',
+                                     type=str,
+                                     help='The name of the app to release to.')
+    releases_add_parser.set_defaults(func=releases_add)
 
     args = parser.parse_args()
     args.func(args, config)
