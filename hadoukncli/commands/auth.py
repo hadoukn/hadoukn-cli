@@ -27,7 +27,7 @@ def login(args, config):
         print('Welcome, %s!' % user['username'])
 
         # get the main config file to write to
-        config_file = get_config_file()
+        config_file = get_config_file('hadoukncli.ini')
 
         # save off the credentials to our user config file
         config.set_dict('user', user)
