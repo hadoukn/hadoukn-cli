@@ -1,5 +1,7 @@
-import sys
+from __future__ import print_function
 import argparse
+import os
+import sys
 
 from hadoukncli.config import get_config
 from hadoukncli.commands.auth import login
@@ -9,14 +11,24 @@ from hadoukncli.commands.releases import releases_add
 
 
 def run_command(argv=sys.argv):
-    # get cli and user configs
-    config = get_config('hadoukncli.ini')
-
     # CLI argument parser
-    parser = argparse.ArgumentParser(description='Do stuff with Hadoukn.')
-    subparsers = parser.add_subparsers(title='available sub-commands',
-                                       help='sub-command help',
-                                       dest='subparser')
+    parser = argparse.ArgumentParser(
+        description=''
+    )
+    parser.add_argument(
+        '-c',
+        '--config',
+        help=(
+            'Path to the configuration file. If not specified then the '
+            'lookup order will check for a HADOUKN_CONFIG environ '
+            'variable, then fallback to .hadouknrc in the CWD.'
+        ),
+    )
+    subparsers = parser.add_subparsers(
+        title='available sub-commands',
+        help='sub-command help',
+        dest='subparser',
+    )
 
     # login
     login_parser = subparsers.add_parser('login',
@@ -47,4 +59,14 @@ def run_command(argv=sys.argv):
     releases_add_parser.set_defaults(func=releases_add)
 
     args = parser.parse_args()
+
+    # get cli and user configs
+    cfg_path = args.config
+    if cfg_path is not None and not os.path.exists(cfg_path):
+        print('Invalid path "{}" specified for the config file.'
+              .format(cfg_path), file=sys.stderr)
+        return 1
+
+    config = get_config(cfg_path)
+
     args.func(args, config)
